@@ -1,0 +1,40 @@
+name: example_tool
+
+source:
+  # Source type: database | mongo | file | stdout
+  type: database
+
+  # SQL driver: postgres | sqlite | mysql
+  driver: postgres
+  host: localhost
+  port: 5432
+  database: tool_db
+
+  # Option A — specify table + columns to select
+  table: found_credentials
+  columns:
+    - credential_value
+    - credential_type
+    - target_host
+
+  # Option B — write a raw SQL query instead (comment out table/columns above)
+  # query: "SELECT credential_value, credential_type, target_host FROM found_credentials WHERE exported = false"
+
+  # Optional: column used to track the last ingested row
+  cursor_field: id
+
+  # Optional: omit this block entirely if the database has no auth
+  credentials:
+    username: ${DB_USER}
+    password: ${DB_PASS}
+
+# Maps ATC field names (left) to tool field names (right).
+# Only mapped fields are sent — everything else is dropped.
+mapping:
+  token: credential_value
+  type: credential_type
+  target: target_host
+
+atc:
+  url: https://atc.example.com
+  ingest_key: ${INGEST_KEY}

@@ -1,0 +1,12 @@
+# Rust
+/target/
+Cargo.lock
+
+# Secrets — ignore per-tool .env files but keep .env.example files
+!example.env
+.env
+tools/**/.env
+
+# OS
+.DS_Store
+Thumbs.db
